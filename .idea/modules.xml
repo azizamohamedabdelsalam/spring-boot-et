@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="ProjectModuleManager">
+    <modules>
+      <module fileurl="file://$PROJECT_DIR$/newbootingweb/newbootingweb.iml" filepath="$PROJECT_DIR$/newbootingweb/newbootingweb.iml" />
+      <module fileurl="file://$PROJECT_DIR$/roomwebapp/roomwebapp.iml" filepath="$PROJECT_DIR$/roomwebapp/roomwebapp.iml" />
+      <module fileurl="file://$PROJECT_DIR$/spring-boot-et.iml" filepath="$PROJECT_DIR$/spring-boot-et.iml" />
+    </modules>
+  </component>
+</project>
