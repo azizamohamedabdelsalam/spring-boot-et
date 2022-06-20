@@ -1,9 +1,20 @@
 package com.azizaabdelsalam.lil.sbet.landon.roomwebapp.models;
 
+import javax.persistence.*;
+
+//convert class to entity and provide e level of absteration by implementing repository pattern
+@Entity
+@Table(name = "ROOM")
 public class Room {
+    @Id
+    @Column(name="ROOM_ID")
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
+    @Column(name="ROOM_NUMBER")
     private String number;
+    @Column(name="NAME")
     private String name;
+    @Column(name="BED_INFO")
     private String info;
 
     public Room() {
