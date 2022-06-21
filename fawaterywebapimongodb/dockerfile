@@ -1,0 +1,21 @@
+#Build an image from a Dockerfile
+FROM maven:3.8.5-openjdk-11-slim as BUILDER
+ARG VERSION=0.0.1-SNAPSHOT
+WORKDIR /build/
+COPY pom.xml /build/
+COPY src /build/src/
+#the command to cause Maven to create an application.jar file
+RUN mvn clean package
+COPY target/fawaterywebapimongodb-${VERSION}.jar target/application.jar
+# set up my image
+FROM openjdk:11.0.8-jre-slim
+WORKDIR /app/
+
+COPY --from=BUILDER /build/target/application.jar /app/
+
+CMD java -jar /app/application.jar
+
+# then in terminal i execute this command to build my image : docker build -t fawaterywebapimongodb .
+# previous command is going build the image i just set up above and then i will find this image in my local docker
+# and to run the image : docker run -p 8080:8080 -d roomwebapp
+# previous command up and run the image then i can go to localhost:8080/rooms that will
