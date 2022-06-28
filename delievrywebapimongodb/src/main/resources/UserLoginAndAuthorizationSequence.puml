@@ -1,0 +1,21 @@
+@startuml
+
+autonumber
+Client --> ApplicationServer: Get api/customerservicemen/csmdata
+ApplicationServer --> Client: Unauthorized, redirect to authentication server to login
+Client --> KeycloakAuthenticationServe: Post api/auth/signin {Username and Password}
+KeycloakAuthenticationServe --> KeycloakAuthenticationServe:  Validate credentials (success)
+KeycloakAuthenticationServe --> Client: Redirect back to api/customerservicemen/csmdata
+Client --> ApplicationServer: Get api/customerservicemen/csmdata (with Token on authorization header)
+ApplicationServer --> ApplicationServer: look at Token signature , Verify that token has not tempered with. then get user info & authenticate and Authorize using user's authorities
+ApplicationServer --> Client: Return Response based on Authorities
+@enduml
+
+1- An unauthenticated user performs a GET request to /resource
+2- The application realizes that the user is unauthorized and redirects him to the SSO login form.
+3- The user provides credentials via the login form and sends it to SSO
+4- SSO checks the login and password provided
+5- If the login and password are correct, the user is redirected back to the originally requested /resource
+6- The authenticated user performs GET /resource again.
+7- The application checks if the authorized user is assigned to the required role
+8- The requested resource is sent back to the user

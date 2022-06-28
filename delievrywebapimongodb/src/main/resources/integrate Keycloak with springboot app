@@ -1,0 +1,10 @@
+Firstly  i setup keycloak authentication server
+bin/kc.bat
+then start development mode by kc.bat start --dev
+create realm
+
+#add client to realm -- my spring boot app is the client
+where  Root URL: the root URL of your backend and
+# then configure keycloak in application.properties
+# generate secret to this client
+#add user and role to the client

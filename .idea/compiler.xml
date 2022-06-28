@@ -8,11 +8,12 @@
         <outputRelativeToContentRoot value="true" />
         <module name="newbootingweb" />
         <module name="roomwebapp" />
-        <module name="fawaterywebapimongodb" />
+        <module name="delievrywebapimongodb" />
         <module name="spring-boot-et" />
       </profile>
     </annotationProcessing>
     <bytecodeTargetLevel>
+      <module name="delievrywebapimongodb" target="11" />
       <module name="fawaterywebapimongodb" target="11" />
       <module name="newbootingweb" target="11" />
       <module name="roomwebapp" target="11" />
@@ -21,6 +22,7 @@
   </component>
   <component name="JavacSettings">
     <option name="ADDITIONAL_OPTIONS_OVERRIDE">
+      <module name="delievrywebapimongodb" options="-parameters" />
       <module name="fawaterywebapimongodb" options="-parameters" />
       <module name="newbootingweb" options="-parameters" />
       <module name="roomwebapp" options="-parameters" />
