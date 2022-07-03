@@ -3,6 +3,7 @@
   <component name="ProjectModuleManager">
     <modules>
       <module fileurl="file://$PROJECT_DIR$/delievrywebapimongodb/delievrywebapimongodb.iml" filepath="$PROJECT_DIR$/delievrywebapimongodb/delievrywebapimongodb.iml" />
+      <module fileurl="file://$PROJECT_DIR$/fawaterywebapi/fawaterywebapi.iml" filepath="$PROJECT_DIR$/fawaterywebapi/fawaterywebapi.iml" />
       <module fileurl="file://$PROJECT_DIR$/newbootingweb/newbootingweb.iml" filepath="$PROJECT_DIR$/newbootingweb/newbootingweb.iml" />
       <module fileurl="file://$PROJECT_DIR$/roomwebapp/roomwebapp.iml" filepath="$PROJECT_DIR$/roomwebapp/roomwebapp.iml" />
       <module fileurl="file://$PROJECT_DIR$/spring-boot-et.iml" filepath="$PROJECT_DIR$/spring-boot-et.iml" />

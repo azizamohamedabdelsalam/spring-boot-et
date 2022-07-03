@@ -1,15 +1,19 @@
 package com.azizaabdelsalam.lil.sbet.fawaterydelivery.delievrywebapimongodb.model;
 
+import com.fasterxml.jackson.annotation.JsonView;
+
 import java.util.List;
 
 public class CustomerIdDto {
+    @JsonView(CSMView.CSMPublic.class)
     private String customerId;
-    private List<String> orderIdsList;
+    @JsonView(CSMView.CSMPublic.class)
+    private List<OrderIdDto> orderIdsList;
 
     public CustomerIdDto() {
     }
 
-    public CustomerIdDto(String customerId, List<String> orderIdsList) {
+    public CustomerIdDto(String customerId, List<OrderIdDto> orderIdsList) {
         this.customerId = customerId;
         this.orderIdsList = orderIdsList;
     }
@@ -22,11 +26,11 @@ public class CustomerIdDto {
         this.customerId = customerId;
     }
 
-    public List<String> getOrderIdsList() {
+    public List<OrderIdDto> getOrderIdsList() {
         return orderIdsList;
     }
 
-    public void setOrderIdsList(List<String> orderIdsList) {
+    public void setOrderIdsList(List<OrderIdDto> orderIdsList) {
         this.orderIdsList = orderIdsList;
     }
 }

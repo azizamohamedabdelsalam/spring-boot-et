@@ -7,6 +7,7 @@ import org.keycloak.adapters.springsecurity.KeycloakSecurityComponents;
 import org.keycloak.adapters.springsecurity.authentication.KeycloakAuthenticationProvider;
 import org.keycloak.adapters.springsecurity.config.KeycloakWebSecurityConfigurerAdapter;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.web.servlet.ServletListenerRegistrationBean;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
@@ -14,39 +15,62 @@ import org.springframework.context.annotation.Primary;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
+import org.springframework.security.core.authority.mapping.SimpleAuthorityMapper;
+import org.springframework.security.core.session.SessionRegistry;
 import org.springframework.security.core.session.SessionRegistryImpl;
 import org.springframework.security.web.authentication.session.RegisterSessionAuthenticationStrategy;
 import org.springframework.security.web.authentication.session.SessionAuthenticationStrategy;
+import org.springframework.security.web.session.HttpSessionEventPublisher;
 /*how to set up Spring Security and use it in conjunction with Keycloak. */
 /* Keycloak provides a KeycloakWebSecurityConfigurerAdapter as a convenient base class for creating a WebSecurityConfigurer instance.
 This is helpful because any application secured by Spring Security requires a configuration class that extends WebSecurityConfigurerAdapter:*/
 
-@EnableWebSecurity
+
 @ComponentScan(basePackageClasses = KeycloakSecurityComponents.class)
-@Configuration
 //The @KeycloakConfiguration annotation is a metadata annotation that defines all of the annotations required to use Keycloak with Spring Security.
 @KeycloakConfiguration
 public class SecurityConfig extends KeycloakWebSecurityConfigurerAdapter {
 
-    //Registers the KeycloakAuthenticationProvider with the authentication manager.
+    /* --
+    Unlike the other Keycloak Adapters, you should not configure your security in web.xml. However, keycloak.json is still required.
+     In order for Single Sign Out to work properly you have to define a session listener.
+     */
+    @Bean
+    public ServletListenerRegistrationBean<HttpSessionEventPublisher> httpSessionEventPublisher() {
+        return new ServletListenerRegistrationBean<HttpSessionEventPublisher>(new HttpSessionEventPublisher());
+    }
+
+    /* --Registers the KeycloakAuthenticationProvider with the authentication manager. --*/
     @Autowired
-    public void configureGlobal(AuthenticationManagerBuilder auth) {
+    public void configureGlobal(AuthenticationManagerBuilder auth) throws Exception{
         KeycloakAuthenticationProvider keycloakAuthenticationProvider  = keycloakAuthenticationProvider();
+        keycloakAuthenticationProvider.setGrantedAuthoritiesMapper(new SimpleAuthorityMapper());
         auth.authenticationProvider(keycloakAuthenticationProvider);
     }
 
-    //Defines the session authentication strategy. RegisterSessionAuthenticationStrategy  is used for public or confidential applications.
+
+    /**
+     * Defines the session authentication strategy so that RegisterSessionAuthenticationStrategy  is used for public or confidential applications.
+     */
+
+    @Bean
     @Override
     protected SessionAuthenticationStrategy sessionAuthenticationStrategy() {
-        return new RegisterSessionAuthenticationStrategy(new SessionRegistryImpl());
+        return new RegisterSessionAuthenticationStrategy(buildSessionRegistry());
     }
 
-    //Instead of the default Keycloak.json, use the Spring Boot properties file.
     @Bean
-    @Primary
-    public KeycloakSpringBootConfigResolver keycloakConfigResolver(KeycloakSpringBootProperties properties) {
+    protected SessionRegistry buildSessionRegistry() {
+        return new SessionRegistryImpl();
+    }
 
-        return new CustomKeycloakSpringBootConfigResolver(properties);
+
+
+    //By Default, the Spring Security Adapter looks for a keycloak.json configuration file. You can make sure it looks at the configuration provided by the Spring Boot Adapter by adding this bean
+    @Bean
+    public KeycloakSpringBootConfigResolver keycloakConfigResolver() {
+
+        return new KeycloakSpringBootConfigResolver();
     }
 
     //We define our security constraints here based on a selection match.
@@ -54,8 +78,8 @@ public class SecurityConfig extends KeycloakWebSecurityConfigurerAdapter {
     protected void configure(HttpSecurity http) throws Exception {
         super.configure(http);
         http.authorizeRequests()
-                .antMatchers("/","/api/*").permitAll()
-                .anyRequest()
-                .authenticated();
+                .antMatchers("/","/api").hasRole("CSMuser")
+                .anyRequest().authenticated();
+
     }
 }
