@@ -3,8 +3,11 @@ package com.azizaabdelsalam.lil.sbet.fawaterydelivery.delievrywebapimongodb.mode
 import com.fasterxml.jackson.annotation.JsonView;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.index.Indexed;
+import org.springframework.data.mongodb.core.mapping.DBRef;
 import org.springframework.data.mongodb.core.mapping.Document;
+import org.springframework.data.mongodb.core.mapping.Field;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @Document (collection = "CUSTOMERSERVICEMAN")
@@ -19,7 +22,8 @@ public class CustomerServiceMan {
     @JsonView(CSMView.CSMPublic.class)
     private Branch branch;
     @JsonView(CSMDtlView.CSMCustomerList.class)
-    private List<CustomerIdDto> customerIdsList;
+    @Field("customerIds")
+    private List<CustomerIdDto> customerIdsList = new ArrayList<>();
 
     public CustomerServiceMan() {
     }

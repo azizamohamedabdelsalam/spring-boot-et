@@ -12,6 +12,10 @@ import java.util.ArrayList;
 public interface CustomerServiceManRepository
         extends MongoRepository<CustomerServiceMan,String> {
 
+    CustomerServiceMan findByCustomerServiceManId(String customerServiceManId);
+
     @Query(value="{ id : ?0}", fields="{ customerIdsList : 0 }")
     ArrayList<CustomerIdDto> findCustomerslistByCSMId(String id);
+
+
 }

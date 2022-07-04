@@ -5,6 +5,9 @@ package com.azizaabdelsalam.lil.sbet.fawaterydelivery.delievrywebapimongodb.mode
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
+
+import java.util.List;
+
 /**
  *
  * @author Sayed.Hakim
@@ -16,8 +19,21 @@ public class KeycloakUserInfoDto {
     private String password;
     private String firstname;
     private String lastName;
-    private String applicationUserId;
+    private String customer_service_man_id;
     private boolean activeUser;
+
+
+    public KeycloakUserInfoDto(String id, String userName, String email, String password, String firstname, String lastName, String customer_service_man_id, boolean activeUser) {
+        this.id = id;
+        this.userName = userName;
+        this.email = email;
+        this.password = password;
+        this.firstname = firstname;
+        this.lastName = lastName;
+        this.customer_service_man_id = customer_service_man_id;
+        this.activeUser = activeUser;
+
+    }
 
     public KeycloakUserInfoDto() {
     }
@@ -28,16 +44,6 @@ public class KeycloakUserInfoDto {
 
     public void setId(String id) {
         this.id = id;
-    }
-
-    public KeycloakUserInfoDto(String userName, String email, String password, String firstname, String lastName, String applicationUserId, boolean isActive) {
-        this.userName = userName;
-        this.email = email;
-        this.password = password;
-        this.firstname = firstname;
-        this.lastName = lastName;
-        this.applicationUserId = applicationUserId;
-        this.activeUser = isActive;
     }
 
     public String getUserName() {
@@ -80,12 +86,12 @@ public class KeycloakUserInfoDto {
         this.lastName = lastName;
     }
 
-    public String getApplicationUserId() {
-        return applicationUserId;
+    public String getCustomer_service_man_id() {
+        return customer_service_man_id;
     }
 
-    public void setApplicationUserId(String applicationUserId) {
-        this.applicationUserId = applicationUserId;
+    public void setCustomer_service_man_id(String customer_service_man_id) {
+        this.customer_service_man_id = customer_service_man_id;
     }
 
     public boolean isActiveUser() {

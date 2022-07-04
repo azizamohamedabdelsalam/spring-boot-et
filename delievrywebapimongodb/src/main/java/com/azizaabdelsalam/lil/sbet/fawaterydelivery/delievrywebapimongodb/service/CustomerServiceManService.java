@@ -27,16 +27,11 @@ public class CustomerServiceManService {
         this.customerServiceManRepository = customerServiceManRepository;
     }
 
-    public boolean checkCustomerServiceManExistedById(String id){
-        return customerServiceManRepository.existsById(id);
-    }
-
-
     public List<CustomerServiceMan> getCustomerServiceMen(){
         return customerServiceManRepository.findAll();
     }
 
-    public KeycloakUserInfoDto getUserInfoByToken(){
+    public KeycloakUserInfoDto getUserInfoByToken()  {
         KeycloakUserInfoDto user = new KeycloakUserInfoDto();
         KeycloakAuthenticationToken authentication =
                 (KeycloakAuthenticationToken) SecurityContextHolder.getContext().getAuthentication();
@@ -46,29 +41,26 @@ public class CustomerServiceManService {
             AccessToken token = kPrincipal.getKeycloakSecurityContext().getToken();
             user.setId(token.getId());
             user.setUserName(token.getPreferredUsername());
+
             Map<String, Object> otherClaims = token.getOtherClaims();
-            if  (otherClaims.containsKey("applicationUserId")) {
-                user.setApplicationUserId(String.valueOf(otherClaims.get("applicationUserId")));
-            }
+                try{
+                    if  (otherClaims.containsKey("applicationUserId")) user.setCustomer_service_man_id(String.valueOf(otherClaims.get("applicationUserId")));
+                }
+                catch (Exception e) {
+                                    }
         }
         return user;
     }
 
-    public Optional<CustomerServiceMan> getCustomerServiceManById(){
+    public CustomerServiceMan getCustomerServiceManByCustomerServiceManId(){
         KeycloakUserInfoDto CSMUserMap = getUserInfoByToken();
-        String CSMId = CSMUserMap.getApplicationUserId();
-        return customerServiceManRepository.findById(CSMId);
+        String CSMId = CSMUserMap.getCustomer_service_man_id();
+        return customerServiceManRepository.findByCustomerServiceManId(CSMId);
     }
-
-    /*--- Get Customers list with thier orders with known CSM ID who is responsible to deliver*/
-    public ArrayList<CustomerIdDto> getCustListPerCSMId(){
-
-        String CSMId = "62b2547f1ea5032b889c047d";
-        //  AggregationResult <CustomerServiceMan> results;
-        //results = mongoTemplate.aggregate(aggregation, "CustomerIdDto", CustomerServiceMan.class);
-        //List<CustomerServiceMan> tapes;
-        //tapes = results.getMappedResults();
-
-        return customerServiceManRepository.findCustomerslistByCSMId(CSMId);
+    public List<CustomerIdDto> getCustListByCustomerServiceManId(){
+        KeycloakUserInfoDto CSMUserMap = getUserInfoByToken();
+        String CSMId = CSMUserMap.getCustomer_service_man_id();
+        CustomerServiceMan customerServiceMan = customerServiceManRepository.findByCustomerServiceManId(CSMId);
+        return customerServiceMan.getCustomerIdsList();
     }
 }

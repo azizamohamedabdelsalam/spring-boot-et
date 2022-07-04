@@ -8,8 +8,10 @@ import org.keycloak.KeycloakSecurityContext;
 import org.keycloak.adapters.springsecurity.token.KeycloakAuthenticationToken;
 import org.keycloak.representations.AccessToken;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -22,7 +24,7 @@ import java.util.Optional;
 import java.util.Map;
 
 @RestController
-@RequestMapping(path = "/api")
+@RequestMapping(value = "/api")
 public class CustomerServiceManRestController {
 
     @Autowired
@@ -44,22 +46,22 @@ public class CustomerServiceManRestController {
 
     @JsonView(CSMView.CSMPublic.class)
     @GetMapping(value="/CSMData", produces = {"application/JSON"})
-    public ResponseEntity<?> getCSMPublicDataById() {
-        Optional <CustomerServiceMan> customerServiceMan = customerServiceManService.getCustomerServiceManById();
-        if (customerServiceMan.isPresent()) {
-            return new ResponseEntity<Optional<CustomerServiceMan>>(customerServiceMan, HttpStatus.OK);
-        }
-        else {
-            //throw new IllegalAccessException();
-            return new ResponseEntity<>("No Such Customer Service Man Account",HttpStatus.NOT_FOUND);
-        }
+    public ResponseEntity<CustomerServiceMan> getCustomerServiceManByCustomerServiceManId() {
+        HttpHeaders headers = new HttpHeaders();
+        headers.add("Content-Type", "application/json");
+        CustomerServiceMan customerServiceMan = customerServiceManService.getCustomerServiceManByCustomerServiceManId();
+        if (customerServiceMan != null) return new ResponseEntity<>(customerServiceMan, HttpStatus.OK);
+        else  return new ResponseEntity<>(headers,HttpStatus.OK);
     }
 
-    @JsonView(CSMView.CSMPublic.class)
-    @GetMapping("/CSMData/CSMCustomersList")
-    public ResponseEntity<?> getCSMCustomersListDtlDataById(){
-        ArrayList<CustomerIdDto> customerIdDtoList = customerServiceManService.getCustListPerCSMId();
-        return new ResponseEntity< ArrayList<CustomerIdDto>>(customerIdDtoList, HttpStatus.OK);
+    @JsonView(CSMDtlView.CSMCustomerList.class)
+    @GetMapping(value="/CSMData/CSMCustomersList", produces = {"application/JSON"})
+    public ResponseEntity<List<CustomerIdDto>> getCustListByCustomerServiceManId(){
+        HttpHeaders headers = new HttpHeaders();
+        headers.add("Content-Type", "application/json");
+        List<CustomerIdDto> customerIdDtoList = customerServiceManService.getCustListByCustomerServiceManId();
+        if (customerIdDtoList.size() != 0) return new ResponseEntity<List<CustomerIdDto>>(customerIdDtoList, HttpStatus.OK);
+        else  return new ResponseEntity<>(headers,HttpStatus.OK);
     }
 
 }

@@ -1,9 +1,16 @@
 package com.azizaabdelsalam.lil.sbet.fawaterydelivery.delievrywebapimongodb.model;
 
+import com.fasterxml.jackson.annotation.JsonView;
+import org.springframework.data.mongodb.core.mapping.Document;
+import org.springframework.data.mongodb.core.mapping.Field;
 
+@Document("branch")
 public class Branch {
-
+    @JsonView(CSMView.CSMPublic.class)
+    @Field("branchNo")
     private String branchNO;
+    @JsonView(CSMView.CSMPublic.class)
+    @Field("branchNameA")
     private String branchNameA;
 
     public Branch() {
