@@ -45,8 +45,8 @@ public class SecurityConfig extends KeycloakWebSecurityConfigurerAdapter {
     public void configureGlobal(AuthenticationManagerBuilder auth) throws Exception{
         KeycloakAuthenticationProvider keycloakAuthenticationProvider  = keycloakAuthenticationProvider();
         var mapper = new SimpleAuthorityMapper();
-        mapper.setConvertToUpperCase(true);
-        mapper.setPrefix("");
+       // mapper.setConvertToUpperCase(true);
+        //mapper.setPrefix("");
         keycloakAuthenticationProvider.setGrantedAuthoritiesMapper(mapper);
         auth.authenticationProvider(keycloakAuthenticationProvider);
     }
@@ -81,7 +81,7 @@ public class SecurityConfig extends KeycloakWebSecurityConfigurerAdapter {
     protected void configure(HttpSecurity http) throws Exception {
         super.configure(http);
         http.authorizeRequests()
-                .antMatchers("/api*").hasRole("CSMUSERROLE")
+                .antMatchers("/api*").hasRole("ADMIN")
                 .anyRequest().authenticated();
 
     }

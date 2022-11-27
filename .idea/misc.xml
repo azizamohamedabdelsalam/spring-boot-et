@@ -8,6 +8,11 @@
         <option value="$PROJECT_DIR$/roomwebapp/pom.xml" />
         <option value="$PROJECT_DIR$/delievrywebapimongodb/pom.xml" />
         <option value="$PROJECT_DIR$/fawaterywebapi/pom.xml" />
+        <option value="$PROJECT_DIR$/customerservicemaninfoapi/pom.xml" />
+        <option value="$PROJECT_DIR$/custservicemaninfoapi/pom.xml" />
+        <option value="$PROJECT_DIR$/customeridslistandorderidslistpercsmapi/pom.xml" />
+        <option value="$PROJECT_DIR$/stockheaderlistpercsmapi/pom.xml" />
+        <option value="$PROJECT_DIR$/custidsorderidslistpercsmapi/pom.xml" />
       </list>
     </option>
   </component>

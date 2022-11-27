@@ -44,7 +44,7 @@ public class CustomerServiceManService {
 
             Map<String, Object> otherClaims = token.getOtherClaims();
                 try{
-                    if  (otherClaims.containsKey("applicationUserId")) user.setCustomer_service_man_id(String.valueOf(otherClaims.get("applicationUserId")));
+                    if  (otherClaims.containsKey("customer_service_man_id")) user.setCustomer_service_man_id(String.valueOf(otherClaims.get("customer_service_man_id")));
                 }
                 catch (Exception e) {
                                     }

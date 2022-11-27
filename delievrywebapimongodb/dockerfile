@@ -4,18 +4,18 @@ ARG VERSION=0.0.1-SNAPSHOT
 WORKDIR /build/
 COPY pom.xml /build/
 COPY src /build/src/
-#the command to cause Maven to create an application.jar file
+#the command to cause Maven to create(build) an application.jar file
 RUN mvn clean package
-COPY target/delievrywebapimongodb-${VERSION}.jar target/application.jar
+COPY target/delievrywebapimongodb-${VERSION}.jar target/getcusservicemaninfo.jar
 # set up my image
 FROM openjdk:11.0.8-jre-slim
 WORKDIR /app/
 
-COPY --from=BUILDER /build/target/application.jar /app/
+COPY --from=BUILDER /build/target/getcusservicemaninfo.jar /app/
 
-CMD java -jar /app/application.jar
+CMD java -jar /app/getcusservicemaninfo.jar
 
 # then in terminal i execute this command to build my image : docker build -t delievrywebapimongodb .
 # previous command is going build the image i just set up above and then i will find this image in my local docker
-# and to run the image : docker run -p 8085:8085 -d delievrywebapimongodb
-# previous command up and run the image then i can go to localhost:8085/ that will
+# and to run the image : docker run -p 9099:9091 -d delievrywebapimongodb
+# previous command up and run the image then i can go to localhost:9099/ that will

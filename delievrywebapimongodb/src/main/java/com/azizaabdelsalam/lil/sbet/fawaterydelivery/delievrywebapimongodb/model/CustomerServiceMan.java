@@ -10,7 +10,8 @@ import org.springframework.data.mongodb.core.mapping.Field;
 import java.util.ArrayList;
 import java.util.List;
 
-@Document (collection = "CUSTOMERSERVICEMAN")
+@Document (collection = "CustomerServiceMan")
+//@Document (collection = "CUSTOMERSERVICEMAN")
 public class CustomerServiceMan {
     @Id
     private String id;
